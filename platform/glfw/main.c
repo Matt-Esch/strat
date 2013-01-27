@@ -71,7 +71,7 @@ int main (int argc, char * argv [])
       if (flags & flag_window_closed)
          break;
 
-      glfwGetMousePos (&ctx->cursor_x, &ctx->cursor_y);
+      glfwGetMousePos (&ctx->cursor.x, &ctx->cursor.y);
 
       if (!strat_tick (ctx))
          break;
@@ -103,6 +103,12 @@ bool key_down (int key)
 
       case key_down_arrow:
          return glfwGetKey (GLFW_KEY_DOWN) == GLFW_PRESS;
+
+      case key_left_mouse:
+         return glfwGetMouseButton (GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
+
+      case key_right_mouse:
+         return glfwGetMouseButton (GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS;
    };
 
    assert (false);
