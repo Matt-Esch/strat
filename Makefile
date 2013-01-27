@@ -24,6 +24,7 @@ build/image.o \
 build/font.o \
 build/unit-type.o \
 build/unit.o \
+build/matrix.o \
 build/camera.o
 
 OBJECTS += \
@@ -78,6 +79,9 @@ build/unit.o: strat/unit.c
 
 build/camera.o: strat/camera.c
 	$(CC) $(CFLAGS) strat/camera.c -c -o $@
+
+build/matrix.o: strat/matrix.c
+	$(CC) $(CFLAGS) strat/matrix.c -c -o $@
 
 
 ## glfw
