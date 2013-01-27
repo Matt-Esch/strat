@@ -27,42 +27,20 @@
  * SUCH DAMAGE.
  */
 
-typedef struct unit_type
-{
-   UT_hash_handle hh;
-
-   json_value * json;
-
-   char * name;
-
-   struct
-   {
-      struct strat_image stand;
-
-   } image;
-
-   int flags;
-
-} * unit_type;
-
-bool unit_type_init (strat_ctx, unit_type, const char * name);
-void unit_type_load (unit_type);
-void unit_type_unload (unit_type);
-void unit_type_cleanup (unit_type);
-
-#define unit_type_flag_loaded  1
-
-
 typedef struct unit
 {
     unit_type type;
 
+    int x, y;
+
 } * unit;
 
 bool unit_init (strat_ctx, unit, unit_type);
+bool unit_init_json (strat_ctx, unit, json_value *);
+
 void unit_cleanup (unit);
 
-bool unit_types_load (strat_ctx ctx);
-void unit_types_unload (strat_ctx ctx);
+void unit_draw (strat_ctx, unit);
+
 
 

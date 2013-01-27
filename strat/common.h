@@ -42,6 +42,7 @@
 #include <png.h>
 
 #include "../deps/uthash/uthash.h"
+#include "../deps/list/list.h"
 
 #include "../freetype-gl/vertex-buffer.h"
 #include "../freetype-gl/texture-font.h"
@@ -51,9 +52,10 @@ typedef struct strat_ctx * strat_ctx;
 #include "util.h"
 #include "image.h"
 #include "tile.h"
-#include "map.h"
 #include "font.h"
+#include "unit-type.h"
 #include "unit.h"
+#include "map.h"
 #include "camera.h"
 
 #define strat_version "Strat 0.1.0"
@@ -81,6 +83,7 @@ struct strat_ctx
    struct strat_font ui_font;
 
    unit_type unit_types;
+   list (struct unit, units);
 
    struct
    {

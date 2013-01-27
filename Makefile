@@ -22,6 +22,7 @@ build/tile.o \
 build/map.o \
 build/image.o \
 build/font.o \
+build/unit-type.o \
 build/unit.o \
 build/camera.o
 
@@ -68,6 +69,9 @@ build/image.o: strat/image.c
 
 build/font.o: strat/font.c
 	$(CC) $(CFLAGS) strat/font.c -c -o $@
+
+build/unit-type.o: strat/unit-type.c
+	$(CC) $(CFLAGS) strat/unit-type.c -c -o $@
 
 build/unit.o: strat/unit.c
 	$(CC) $(CFLAGS) strat/unit.c -c -o $@

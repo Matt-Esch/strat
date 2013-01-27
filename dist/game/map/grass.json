@@ -1,6 +1,14 @@
 {
     "width": 4,
     "height": 4,
-    "defaultTile": "grass-aoe"
+    "defaultTile": "grass-aoe",
+
+    "units":
+    [
+        { "type": "Villager",
+          "x": 0,
+          "y": 0
+        }
+    ]
 }
 

@@ -84,14 +84,15 @@ void strat_init_gfx (strat_ctx ctx)
    font_init (&ctx->ui_font, "Vera", 9);
 
    tile_init (ctx, &ctx->empty_tile, "empty");
+
+   unit_types_load (ctx);
+
    map_init (ctx, &ctx->map, "grass");
 
    /*camera_center (ctx, (ctx->map.width * ctx->map.tile_width) / 2,
                        (ctx->map.height * ctx->map.tile_height) / 2);*/
 
    camera_center (ctx, 0, 0);
-
-   unit_types_load (ctx);
 }
 
 void strat_free (strat_ctx ctx)
@@ -107,6 +108,11 @@ void strat_draw (strat_ctx ctx)
    glClear (GL_COLOR_BUFFER_BIT);
 
    map_draw (ctx, &ctx->map);
+
+   list_each_elem (ctx->units, unit)
+   {
+      unit_draw (ctx, unit);
+   }
 
    char status[128];
    sprintf (status, "Camera: %d, %d", ctx->camera.x, ctx->camera.y);

@@ -43,6 +43,9 @@ bool map_init (strat_ctx ctx, strat_map map, const char * name)
    map->width = sut_json_int (map->json, "width", 4);
    map->height = sut_json_int (map->json, "height", 4);
 
+
+   /** Tiles **/
+
    if (! (map->tiles = malloc (sizeof (strat_tile) * map->width * map->height)))
    {
       trace ("Error allocating memory for map %s", name);
@@ -64,6 +67,25 @@ bool map_init (strat_ctx ctx, strat_map map, const char * name)
       {
          map->tiles [y * map->width + x] = &ctx->empty_tile;
       }
+   }
+
+
+   /** Units **/
+
+   json_value * units = sut_json_value (map->json, "units");
+
+   if (units && units->type == json_array)
+   {
+      for (size_t i = 0; i < units->u.array.length; ++ i)
+      {
+         struct unit unit;
+         unit_init_json (ctx, &unit, units->u.array.values [i]);
+         list_push (ctx->units, unit);
+      }
+   }
+   else
+   {
+      trace ("Map %s has no units?", name);
    }
 
    trace ("Loaded map %s (tile width = %d, tile height = %d)",

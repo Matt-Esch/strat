@@ -27,52 +27,31 @@
  * SUCH DAMAGE.
  */
 
-#include "common.h"
-
-bool unit_init_json (strat_ctx ctx, unit unit, json_value * json)
+typedef struct unit_type
 {
-   if (json->type != json_object)
-      return false;
+   UT_hash_handle hh;
 
-   const char * type_id = sut_json_string (json, "type", "");
+   json_value * json;
 
-   unit_type type = 0;
-   HASH_FIND (hh, ctx->unit_types, type_id, strlen (type_id), type);
+   char * name;
 
-   if (!type)
+   struct
    {
-      trace ("Unknown unit type: %s", type_id);
-      return false;
-   }
+      struct strat_image stand;
 
-   unit_type_load (type);
-   unit->type = type;
+   } image;
 
-   unit->x = sut_json_int (json, "x", 0);
-   unit->y = sut_json_int (json, "y", 0);
+   int flags;
 
-   trace ("Loaded unit from JSON: %s", type->name);
+} * unit_type;
 
-   return true;
-}
+bool unit_type_init (strat_ctx, unit_type, const char * name);
+void unit_type_load (unit_type);
+void unit_type_unload (unit_type);
+void unit_type_cleanup (unit_type);
 
-bool unit_init (strat_ctx ctx, unit unit, unit_type type)
-{
-   assert (false);
+#define unit_type_flag_loaded  1
 
-   return true;
-}
-
-void unit_cleanup (unit unit)
-{
-
-}
-
-void unit_draw (strat_ctx ctx, unit unit)
-{
-   point p = screenspace_to_mapspace (ctx, unit->x, unit->y);
-
-   image_draw (&unit->type->image.stand, p.x, p.y);
-}
-
+bool unit_types_load (strat_ctx ctx);
+void unit_types_unload (strat_ctx ctx);
 

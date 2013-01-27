@@ -118,7 +118,7 @@ bool load_config (strat_ctx ctx)
    return true;
 }
 
-static json_value * get_value (json_value * value, const char * name)
+json_value * sut_json_value (json_value * value, const char * name)
 {
    if (value->type != json_object)
       return 0;
@@ -132,7 +132,7 @@ static json_value * get_value (json_value * value, const char * name)
 
 long sut_json_int (json_value * value, const char * name, int def)
 {
-   value = get_value (value, name);
+   value = sut_json_value (value, name);
 
    if ( (!value) || value->type != json_integer)
       return def;
@@ -142,7 +142,7 @@ long sut_json_int (json_value * value, const char * name, int def)
 
 long sut_json_bool (json_value * value, const char * name, bool def)
 {
-   value = get_value (value, name);
+   value = sut_json_value (value, name);
 
    if ( (!value) || value->type != json_boolean)
       return def;
@@ -154,7 +154,7 @@ const char * sut_json_string (json_value * value,
                               const char * name,
                               const char * def)
 {
-   value = get_value (value, name);
+   value = sut_json_value (value, name);
 
    if ( (!value) || value->type != json_string)
       return def;

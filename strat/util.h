@@ -34,6 +34,7 @@ json_value * sut_json_load (const char * filename);
 long sut_json_int (json_value *, const char * name, int def);
 long sut_json_bool (json_value *, const char * name, bool def);
 const char * sut_json_string (json_value *, const char * name, const char * def);
+json_value * sut_json_value (json_value *, const char * name);
 
 char * sut_format (const char * format, ...);
 
