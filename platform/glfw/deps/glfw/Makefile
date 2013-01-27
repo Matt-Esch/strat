@@ -75,11 +75,9 @@ cygwin-install: win32-cygwin
 
 win32-cygwin:
 	cd lib/win32 && env $(CYGWIN) $(MAKE) -f Makefile.win32.cross-mgw
-	cd tests     && env $(CYGWIN) $(MAKE) -f Makefile.win32.cross-mgw
 
 cygwin-clean:
 	cd lib/win32 && env $(CYGWIN) $(MAKE) -f Makefile.win32.cross-mgw clean
-	cd tests     && env $(CYGWIN) $(MAKE) -f Makefile.win32.cross-mgw clean
 
 
 ###########################################################################
@@ -91,11 +89,9 @@ msys-install: win32-msys
 
 win32-msys:
 	cd lib/win32 && $(MAKE) -f Makefile.win32.msys
-	cd tests     && $(MAKE) -f Makefile.win32.msys
 
 msys-clean:
 	cd lib/win32 && $(MAKE) -f Makefile.win32.msys clean
-	cd tests     && $(MAKE) -f Makefile.win32.msys clean
 
 
 ###########################################################################
@@ -124,25 +120,22 @@ cross-mgw-install: cross-mgw
 
 cross-mgw:
 	cd lib/win32 && $(MAKE) -f Makefile.win32.cross-mgw
-	cd tests     && $(MAKE) -f Makefile.win32.cross-mgw
 
 cross-mgw-clean:
 	cd lib/win32 && $(MAKE) -f Makefile.win32.cross-mgw clean 
-	cd tests     && $(MAKE) -f Makefile.win32.cross-mgw clean
 
 
 ###########################################################################
 # X11 on Unix-like systems
 ###########################################################################
 
-MAKEFILES_X11_IN = lib/x11/Makefile.x11.in tests/Makefile.x11.in
+MAKEFILES_X11_IN = lib/x11/Makefile.x11.in 
 
-MAKEFILES_X11 = lib/x11/Makefile.x11 tests/Makefile.x11
+MAKEFILES_X11 = lib/x11/Makefile.x11 
 
 # Cleanup for X11 (must be here due to generated makefile)
 x11-clean: $(MAKEFILES_X11)
 	cd lib/x11  && $(MAKE) -f Makefile.x11 clean
-	cd tests    && $(MAKE) -f Makefile.x11 clean
 
 x11-dist-clean: x11-clean
 	rm -f config.log
@@ -156,7 +149,6 @@ $(MAKEFILES_X11) : compile.sh $(MAKEFILES_X11_IN)
 # X11
 x11: $(MAKEFILES_X11)
 	cd lib/x11  && $(MAKE) -f Makefile.x11
-	cd tests    && $(MAKE) -f Makefile.x11
 
 # X11 install
 x11-install: x11
@@ -173,11 +165,9 @@ x11-dist-install: x11
 
 cocoa:
 	cd lib/cocoa && $(MAKE) -f Makefile.cocoa
-	cd tests     && $(MAKE) -f Makefile.cocoa
 
 cocoa-clean:
 	cd lib/cocoa && $(MAKE) -f Makefile.cocoa clean
-	cd tests     && $(MAKE) -f Makefile.cocoa clean
 
 cocoa-install: cocoa
 	cd lib/cocoa && $(MAKE) -f Makefile.cocoa install
