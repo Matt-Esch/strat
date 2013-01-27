@@ -37,12 +37,3 @@ const char * sut_json_string (json_value *, const char * name, const char * def)
 
 char * sut_format (const char * format, ...);
 
-typedef struct
-{
-   int x, y;
-
-} sut_point;
-
-sut_point mapspace_to_screenspace (int x, int y);
-sut_point screenspace_to_mapspace (int x, int y);
-

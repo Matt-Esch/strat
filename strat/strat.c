@@ -86,8 +86,10 @@ void strat_init_gfx (strat_ctx ctx)
    tile_init (ctx, &ctx->empty_tile, "empty");
    map_init (ctx, &ctx->map, "grass");
 
-   camera_center (ctx, (ctx->map.width * ctx->map.tile_width) / 2,
-                       (ctx->map.height * ctx->map.tile_height) / 2);
+   /*camera_center (ctx, (ctx->map.width * ctx->map.tile_width) / 2,
+                       (ctx->map.height * ctx->map.tile_height) / 2);*/
+
+   camera_center (ctx, 0, 0);
 
    unit_types_load (ctx);
 }
@@ -107,9 +109,11 @@ void strat_draw (strat_ctx ctx)
    map_draw (ctx, &ctx->map);
 
    char status[128];
-   //sprintf (status, "Camera: %d, %d", ctx->camera_x, ctx->camera_y);
-   sut_point m = screenspace_to_mapspace(ctx->cursor_x, ctx->cursor_y);
-   sprintf (status, "Mouse: %d, %d", m.x + ctx->camera_x, m.y + ctx->camera_y);
+   sprintf (status, "Camera: %d, %d", ctx->camera_x, ctx->camera_y);
+   text_draw (&ctx->ui_font, 0, 40, 0, 0, status, 0);
+
+   point m = screenspace_to_mapspace(ctx, ctx->cursor_x, ctx->cursor_y);
+   sprintf (status, "Mouse: %d, %d", m.x, m.y);
    text_draw (&ctx->ui_font, 0, 0, 0, 0, status, 0);
 
    GLenum error = glGetError();
@@ -122,8 +126,7 @@ void strat_draw (strat_ctx ctx)
 
 bool strat_tick (strat_ctx ctx)
 {
-   /*ctx->camera_x = ctx->cursor_x - (ctx->win_width / 2);
-   ctx->camera_y = ctx->cursor_y - (ctx->win_height / 2);*/
+   camera_tick (ctx);
 
    return true;
 }

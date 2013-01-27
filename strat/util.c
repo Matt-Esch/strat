@@ -168,29 +168,3 @@ char * sut_format (const char * format, ...)
    return strdup (format);
 }
 
-#define theta  26.565f
-#define c  (cos(theta/2))
-#define s  (sin(theta/2))
-
-sut_point screenspace_to_mapspace (int x, int y)
-{
-   sut_point point;
-
-   point.x = round(x / c - (y / s));
-   point.y = round(x / c + (y / s));
-
-   return point; 
-}
-sut_point mapspace_to_screenspace (int x, int y)
-{
-   sut_point point;
-
-   point.x = 0;
-   point.y = 0;
-
-   return point; 
-}
-
-
-
-

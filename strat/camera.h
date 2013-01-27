@@ -29,4 +29,14 @@
 
 void camera_center (strat_ctx, int x, int y);
 
+typedef struct
+{
+   int x, y;
+
+} point;
+
+point mapspace_to_screenspace (strat_ctx, int x, int y);
+point screenspace_to_mapspace (strat_ctx, int x, int y);
+
+void camera_tick (strat_ctx);
 

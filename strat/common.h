@@ -69,6 +69,7 @@ struct strat_ctx
    int cursor_x, cursor_y;
 
    int camera_x, camera_y;
+   float camera_accel_x, camera_accel_y;
 
    const char * game_title;
    int tick_rate;
@@ -94,5 +95,12 @@ void strat_draw (strat_ctx);
     fprintf(stderr, __VA_ARGS__); \
     fprintf(stderr, "\n"); \
 } while(0);
+
+#define key_left_arrow   1
+#define key_right_arrow  2
+#define key_up_arrow     3
+#define key_down_arrow   4
+
+bool key_down (int key);
 
 

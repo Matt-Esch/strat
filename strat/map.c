@@ -88,7 +88,9 @@ void map_draw (strat_ctx ctx, strat_map map)
          strat_tile tile = map->tiles [i * map->width + j];
 
          int x = j * tile->image.width / 2 + i * tile->image.width / 2;
-         int y = i * tile->image.height / 2 - j * tile->image.height / 2;
+         int y = (i * tile->image.height / 2 - j * tile->image.height / 2);
+ 
+         y -= (tile->image.height / 2);
 
          x -= ctx->camera_x;
          y -= ctx->camera_y;
