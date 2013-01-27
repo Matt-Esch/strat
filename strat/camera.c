@@ -31,8 +31,8 @@
 
 void camera_center (strat_ctx ctx, int x, int y)
 {
-   ctx->camera_x = x - (ctx->win_width / 2);
-   ctx->camera_y = y - (ctx->win_height / 2);
+   ctx->camera.x = x - (ctx->win_width / 2);
+   ctx->camera.y = y - (ctx->win_height / 2);
 }
 
 /*#define theta  26.565f
@@ -53,8 +53,8 @@ point screenspace_to_mapspace (strat_ctx ctx, int x, int y)
 {
    point point;
  
-   x += ctx->camera_x;
-   y += ctx->camera_y;
+   x += ctx->camera.x;
+   y += ctx->camera.y;
 
    y += ctx->map.tile_height / 2;
 
@@ -132,7 +132,7 @@ void camera_tick (strat_ctx ctx)
       x_direction = 1;
 
    handle_accel (&ctx->camera_accel_x, x_direction);
-   ctx->camera_x += ctx->camera_accel_x;
+   ctx->camera.x += ctx->camera_accel_x;
 
    int y_direction = 0;
 
@@ -143,7 +143,7 @@ void camera_tick (strat_ctx ctx)
       y_direction = 1;
 
    handle_accel (&ctx->camera_accel_y, y_direction);
-   ctx->camera_y += ctx->camera_accel_y;
+   ctx->camera.y += ctx->camera_accel_y;
 }
 
 

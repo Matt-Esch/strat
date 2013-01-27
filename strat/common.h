@@ -66,9 +66,9 @@ struct strat_ctx
    long win_width, win_height;
    bool fullscreen;
 
-   int cursor_x, cursor_y;
+   point cursor;
+   point camera;
 
-   int camera_x, camera_y;
    float camera_accel_x, camera_accel_y;
 
    const char * game_title;
@@ -81,6 +81,12 @@ struct strat_ctx
    struct strat_font ui_font;
 
    unit_type unit_types;
+
+   struct
+   {
+      point start, end;
+
+   } selection;
 };
 
 strat_ctx strat_init (int argc, char * argv []);
@@ -100,6 +106,8 @@ void strat_draw (strat_ctx);
 #define key_right_arrow  2
 #define key_up_arrow     3
 #define key_down_arrow   4
+#define key_left_mouse   5
+#define key_right_mouse  6
 
 bool key_down (int key);
 

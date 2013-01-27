@@ -109,12 +109,48 @@ void strat_draw (strat_ctx ctx)
    map_draw (ctx, &ctx->map);
 
    char status[128];
-   sprintf (status, "Camera: %d, %d", ctx->camera_x, ctx->camera_y);
+   sprintf (status, "Camera: %d, %d", ctx->camera.x, ctx->camera.y);
    text_draw (&ctx->ui_font, 0, 40, 0, 0, status, 0);
 
-   point m = screenspace_to_mapspace(ctx, ctx->cursor_x, ctx->cursor_y);
+   point m = screenspace_to_mapspace(ctx, ctx->cursor.x, ctx->cursor.y);
    sprintf (status, "Mouse: %d, %d", m.x, m.y);
    text_draw (&ctx->ui_font, 0, 0, 0, 0, status, 0);
+
+   if (ctx->selection.start.x != 0)
+   {
+      glTranslatef (0.5f - ctx->camera.x, 0.5f - ctx->camera.y, 0);
+      glDisable (GL_TEXTURE_2D);
+
+      glColor4f (0.8f, 0.8f, 0.8f, 0.8f);
+
+      int x0 = ctx->selection.start.x,
+          y0 = ctx->selection.start.y,
+          x1 = ctx->selection.end.x,
+          y1 = ctx->selection.end.y;
+
+      for (int i = 0; i < 2; ++ i)
+      {
+         GLfloat vertices [] =
+         {
+            x0,  y0,
+            x1,  y0,
+            x1,  y1,
+            x0,  y1
+         };
+
+         glVertexPointer (2, GL_FLOAT, 0, vertices);
+         glDrawArrays (GL_LINE_LOOP, 0, 4);
+
+         x0 += 2;
+         y0 += 2; 
+           
+         x1 -= 2;
+         y1 -= 2;
+      }
+
+      glTranslatef (-0.5f + ctx->camera.x, -0.5f + ctx->camera.y, 0);
+      glEnable (GL_TEXTURE_2D);
+   }
 
    GLenum error = glGetError();
 
@@ -126,6 +162,23 @@ void strat_draw (strat_ctx ctx)
 
 bool strat_tick (strat_ctx ctx)
 {
+   if (key_down (key_left_mouse))
+   {
+      if (ctx->selection.start.x == 0)
+      {
+         ctx->selection.start.x = ctx->cursor.x + ctx->camera.x;
+         ctx->selection.start.y = ctx->cursor.y + ctx->camera.y;
+      }
+
+      ctx->selection.end.x = ctx->cursor.x + ctx->camera.x;
+      ctx->selection.end.y = ctx->cursor.y + ctx->camera.y;
+   }
+   else
+   {
+      if (ctx->selection.start.x)
+         ctx->selection.start.x = 0;
+   }
+
    camera_tick (ctx);
 
    return true;

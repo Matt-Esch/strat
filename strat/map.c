@@ -92,8 +92,8 @@ void map_draw (strat_ctx ctx, strat_map map)
  
          y -= (tile->image.height / 2);
 
-         x -= ctx->camera_x;
-         y -= ctx->camera_y;
+         x -= ctx->camera.x;
+         y -= ctx->camera.y;
 
          image_draw (&tile->image, x, y);
 
