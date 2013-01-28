@@ -27,9 +27,9 @@
  * SUCH DAMAGE.
  */
 
-typedef struct strat_tile
+typedef struct _strat_tile
 {
-   struct strat_image image;
+   struct _strat_image image;
 
 } * strat_tile;
 

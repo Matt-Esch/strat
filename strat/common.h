@@ -28,26 +28,33 @@
  */
 
 #include <stdlib.h>
-#include <stdbool.h>
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
 
-#include <dirent.h>
+#ifdef _MSC_VER
+    #include "../deps/glew/include/GL/glew.h"
+    #include "../msvc/typeof.h"
+    #include "../msvc/dirent.h"
+    #define snprintf sprintf_s
+    #define strcasecmp stricmp
+#else
+    #include <dirent.h>
+    #include <stdbool.h>
+    #include <opengl/gl.h>
+#endif
 
-#include <opengl/gl.h>
-
-#include <json.h>
 #include <png.h>
 
+#include "../deps/json-parser/json.h"
 #include "../deps/uthash/uthash.h"
 #include "../deps/list/list.h"
 
 #include "../freetype-gl/vertex-buffer.h"
 #include "../freetype-gl/texture-font.h"
 
-typedef struct strat_ctx * strat_ctx;
+typedef struct _strat_ctx * strat_ctx;
 
 #include "util.h"
 #include "image.h"
@@ -61,7 +68,7 @@ typedef struct strat_ctx * strat_ctx;
 #define strat_version "Strat 0.1.0"
 #define strat_max_path 512
 
-struct strat_ctx
+struct _strat_ctx
 {
    json_value * game_def, * config;
 
@@ -76,14 +83,14 @@ struct strat_ctx
    const char * game_title;
    int tick_rate;
 
-   struct strat_map map;
+   struct _strat_map map;
 
-   struct strat_tile empty_tile;
+   struct _strat_tile empty_tile;
 
-   struct strat_font ui_font;
+   struct _strat_font ui_font;
 
    unit_type unit_types;
-   list (struct unit, units);
+   list (struct _unit, units);
 
    struct
    {

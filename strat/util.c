@@ -42,7 +42,7 @@ bool sut_load_file (const char * filename, char ** buffer, size_t * out_size)
    size = ftell (file);
    fseek (file, 0, SEEK_SET);
 
-   if (! (*buffer = malloc (size + 1)))
+   if (! (*buffer = (char *) malloc (size + 1)))
    {
       fclose (file);
       return false;

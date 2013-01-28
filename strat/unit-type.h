@@ -27,7 +27,7 @@
  * SUCH DAMAGE.
  */
 
-typedef struct unit_type
+typedef struct _unit_type
 {
    UT_hash_handle hh;
 
@@ -37,7 +37,7 @@ typedef struct unit_type
 
    struct
    {
-      struct strat_image stand;
+      struct _strat_image stand;
 
    } image;
 

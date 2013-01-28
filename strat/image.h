@@ -27,7 +27,7 @@
  * SUCH DAMAGE.
  */
 
-typedef struct strat_image
+typedef struct _strat_image
 {
    GLuint texture;
 

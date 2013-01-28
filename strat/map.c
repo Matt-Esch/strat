@@ -46,7 +46,7 @@ bool map_init (strat_ctx ctx, strat_map map, const char * name)
 
    /** Tiles **/
 
-   if (! (map->tiles = malloc (sizeof (strat_tile) * map->width * map->height)))
+   if (! (map->tiles = (strat_tile *) malloc (sizeof (strat_tile) * map->width * map->height)))
    {
       trace ("Error allocating memory for map %s", name);
       return false;
@@ -78,7 +78,7 @@ bool map_init (strat_ctx ctx, strat_map map, const char * name)
    {
       for (size_t i = 0; i < units->u.array.length; ++ i)
       {
-         struct unit unit;
+         struct _unit unit;
          unit_init_json (ctx, &unit, units->u.array.values [i]);
          list_push (ctx->units, unit);
       }

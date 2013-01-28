@@ -27,7 +27,7 @@
  * SUCH DAMAGE.
  */
 
-typedef struct unit
+typedef struct _unit
 {
     unit_type type;
 

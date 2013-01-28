@@ -36,7 +36,9 @@
 #include FT_STROKER_H
 // #include FT_ADVANCES_H
 #include FT_LCD_FILTER_H
-#include <stdint.h>
+#ifndef _MSC_VER
+    #include <stdint.h>
+#endif
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
@@ -276,14 +278,14 @@ texture_font_new( texture_atlas_t * atlas,
     // 64 * 64 because of 26.6 encoding AND the transform matrix used
     // in texture_font_load_face (hres = 64)
     self->underline_position = face->underline_position / (float)(64.0f*64.0f) * self->size;
-    self->underline_position = round( self->underline_position );
+    self->underline_position = floor( self->underline_position + 0.5f );
     if( self->underline_position > -2 )
     {
         self->underline_position = -2.0;
     }
 
     self->underline_thickness = face->underline_thickness / (float)(64.0f*64.0f) * self->size;
-    self->underline_thickness = round( self->underline_thickness );
+    self->underline_thickness = floor( self->underline_thickness + 0.5f );
     if( self->underline_thickness < 1 )
     {
         self->underline_thickness = 1.0;

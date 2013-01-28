@@ -27,7 +27,7 @@
  * SUCH DAMAGE.
  */
 
-typedef struct strat_font
+typedef struct _strat_font
 {
     texture_atlas_t * atlas;
     texture_font_t * font;

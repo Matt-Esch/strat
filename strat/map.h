@@ -27,7 +27,7 @@
  * SUCH DAMAGE.
  */
 
-typedef struct strat_map
+typedef struct _strat_map
 {
    json_value * json;
 
@@ -36,7 +36,7 @@ typedef struct strat_map
    int tile_width, tile_height;
    strat_tile * tiles;
 
-   struct strat_tile default_tile;
+   _strat_tile default_tile;
 
 } * strat_map;
 

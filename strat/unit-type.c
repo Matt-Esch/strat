@@ -94,7 +94,7 @@ bool unit_types_load (strat_ctx ctx)
       if (*entry->d_name == '.')
          continue;
 
-      unit_type type = malloc (sizeof (*type));
+      unit_type type = (unit_type) malloc (sizeof (*type));
 
       unit_type_init (ctx, type, entry->d_name);
 

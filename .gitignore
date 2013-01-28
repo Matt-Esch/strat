@@ -27,4 +27,6 @@ run
 *.dll
 *.user
 *.lib
+*/Debug/*
+*/Release/*
 

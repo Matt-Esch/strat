@@ -31,7 +31,7 @@
 
 strat_ctx strat_init (int argc, char * argv [])
 {
-   strat_ctx ctx = calloc (sizeof (*ctx), 1);
+   strat_ctx ctx = (strat_ctx) calloc (sizeof (*ctx), 1);
 
    if (!ctx)
    {

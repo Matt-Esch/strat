@@ -41,6 +41,10 @@ extern "C" {
 #include "opengl.h"
 #include "vector.h"
 
+#if defined(_MSC_VER) && defined(GL_TYPE)
+    #undef GL_TYPE
+#endif
+
 
 /**
  * @file   vertex-attribute.h

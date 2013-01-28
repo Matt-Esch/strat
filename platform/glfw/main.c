@@ -27,7 +27,7 @@
  * SUCH DAMAGE.
  */
 
-#include "common.h"
+#include "../../strat/common.h"
 #include <GL/glfw.h>
 
 int flags = 0;
@@ -111,7 +111,7 @@ bool key_down (int key)
          return glfwGetMouseButton (GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS;
    };
 
-   assert (false);
+   return false;
 }
 
 

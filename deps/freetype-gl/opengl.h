@@ -45,7 +45,6 @@
     #include <Windows.h>
     #include <GL/glew.h>
     #include <GL/wglew.h>
-    #include <GLUT/glut.h> // changed according to your path of glut.h 
 #else
     #include <GL/gl.h>
     #include <GL/glut.h>

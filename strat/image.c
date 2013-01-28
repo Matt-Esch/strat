@@ -65,7 +65,7 @@ void image_cleanup (strat_image image)
 
 strat_image image_new (strat_ctx ctx, const char * filename)
 {
-   strat_image image = malloc (sizeof (*image));
+   strat_image image = (strat_image) malloc (sizeof (*image));
 
    if (!image)
       return 0;
@@ -163,12 +163,12 @@ GLuint load_texture (const char * filename,
 
    bytes_per_row += 3 - (bytes_per_row - 1) % 4;
 
-   png_bytep data = calloc (bytes_per_row * texture_height, 1);
+   png_bytep data = (png_bytep) calloc (bytes_per_row * texture_height, 1);
 
    if (!data)
       return -1;
 
-   png_bytep row_pointers [image_height];
+   png_bytepp row_pointers = (png_bytepp) alloca (sizeof (png_bytep) * image_height);
 
    for (int y = 0; y < image_height; ++ y)
       row_pointers [y] = data + (y * bytes_per_row);
