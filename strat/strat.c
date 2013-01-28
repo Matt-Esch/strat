@@ -59,11 +59,7 @@ strat_ctx strat_init (int argc, char * argv [])
    ctx->game_title = sut_json_string (ctx->game_def, "title", strat_version);
    ctx->tick_rate = sut_json_int (ctx->game_def, "tickRate", 60);
 
-   if (argc >= 2 && !strcasecmp (argv [1], "editor"))
-   {
-
-
-   }
+   ctx->is_editor = (argc >= 2 && !strcasecmp (argv [1], "editor"));
 
    return ctx;
 }
@@ -90,21 +86,19 @@ void strat_init_gfx (strat_ctx ctx)
 
    font_init (&ctx->ui_font, "Vera", 9);
 
-   tile_init (ctx, &ctx->empty_tile, "empty");
-
-   unit_types_load (ctx);
-
-   map_init (ctx, &ctx->map, "grass");
-
-   /*camera_center (ctx, (ctx->map.width * ctx->map.tile_width) / 2,
-                       (ctx->map.height * ctx->map.tile_height) / 2);*/
-
-   camera_center (ctx, 0, 0);
+   if (ctx->is_editor)
+   {
+      ctx->mode = editor_start (ctx);
+   }
+   else
+   {
+      ctx->mode = game_start (ctx);
+   }
 }
 
 void strat_free (strat_ctx ctx)
 {
-   unit_types_unload (ctx);
+   game_end (ctx, ctx->mode);
 
    free (ctx);
 }
@@ -114,59 +108,7 @@ void strat_draw (strat_ctx ctx)
    glClearColor (0.5f, 0.5f, 0.5f, 1.0f);
    glClear (GL_COLOR_BUFFER_BIT);
 
-   map_draw (ctx, &ctx->map);
-
-   list_each_elem (ctx->units, unit)
-   {
-      unit_draw (ctx, unit);
-   }
-
-   char status[128];
-   sprintf (status, "Camera: %f, %f", ctx->camera.x, ctx->camera.y);
-   text_draw (&ctx->ui_font, 0, 40, 0, 0, status, 0);
-
-   vec2f m = screenspace_to_mapspace(ctx, ctx->cursor.x, ctx->cursor.y);
-   sprintf (status, "Mouse: %f, %f", m.x, m.y);
-	
-   text_draw (&ctx->ui_font, 0, 0, 0, 0, status, 0);
-
-   if (ctx->selection.start.x != 0)
-   {
-      glTranslatef (0.5f - ctx->camera.x, 0.5f - ctx->camera.y, 0);
-
-      glDisable (GL_TEXTURE_2D);
-      glColor4f (0.8f, 0.8f, 0.8f, 0.8f);
-
-      int x0 = ctx->selection.start.x,
-          y0 = ctx->selection.start.y,
-          x1 = ctx->selection.end.x,
-          y1 = ctx->selection.end.y;
-
-      for (int i = 0; i < 2; ++ i)
-      {
-         GLfloat vertices [] =
-         {
-            x0,  y0,
-            x1,  y0,
-            x1,  y1,
-            x0,  y1
-         };
-
-         glVertexPointer (2, GL_FLOAT, 0, vertices);
-         glDrawArrays (GL_LINE_LOOP, 0, 4);
-
-         x0 += 2;
-         y0 += 2; 
-           
-         x1 -= 2;
-         y1 -= 2;
-      }
-
-      glTranslatef (-0.5f + ctx->camera.x, -0.5f + ctx->camera.y, 0);
-
-      glEnable (GL_TEXTURE_2D);
-      glColor4f (1.0f, 1.0f, 1.0f, 1.0f);
-   }
+   ctx->mode->draw (ctx, ctx->mode);
 
    GLenum error = glGetError();
 
@@ -178,69 +120,6 @@ void strat_draw (strat_ctx ctx)
 
 bool strat_tick (strat_ctx ctx)
 {
-   if (key_down (key_left_mouse))
-   {
-      if (ctx->selection.start.x == 0)
-      {
-         ctx->selection.start.x = ctx->cursor.x + ctx->camera.x;
-         ctx->selection.start.y = ctx->cursor.y + ctx->camera.y;
-      }
-
-      ctx->selection.end.x = ctx->cursor.x + ctx->camera.x;
-      ctx->selection.end.y = ctx->cursor.y + ctx->camera.y;
-   }
-   else
-   {
-      if (ctx->selection.start.x)
-      {
-         vec2f start = ctx->selection.start,
-               end = ctx->selection.end;
-
-         if (end.x < start.x)
-         {
-            int x = end.x;
-            end.x = start.x;
-            start.x = x;
-         }
-
-         if (end.y < start.y)
-         {
-            int y = end.y;
-            end.y = start.y;
-            start.y = y;
-         }
-
-         list_each_elem (ctx->units, unit)
-         {
-            vec2f unit_pos = mapspace_to_screenspace (ctx, unit->x, unit->y);
-
-            if (unit->x > start.x &&
-                (unit->y - unit->type->height) > start.y &&
-                (unit->x + unit->type->width) < end.x &&
-                unit->y < end.y)
-            {
-               if (!unit->selected)
-               {
-                  trace ("%s selected", unit->type->name);
-                  unit->selected = true;
-               }
-            }
-            else
-            {
-               if (unit->selected)
-               {
-                  trace ("%s deselected", unit->type->name);
-                  unit->selected = false;
-               }
-            }
-         }
-
-         ctx->selection.start.x = 0;
-      }
-   }
-
-   camera_tick (ctx);
-
    return true;
 }
 

@@ -78,7 +78,7 @@ void unit_type_unload (unit_type type)
    type->flags &= ~ unit_type_flag_loaded;
 }
 
-bool unit_types_load (strat_ctx ctx)
+bool unit_types_load (strat_ctx ctx, unit_type * types)
 {
    DIR * unit_dir = opendir ("game/unit");
 
@@ -103,7 +103,7 @@ bool unit_types_load (strat_ctx ctx)
       unit_type_init (ctx, type, entry->d_name);
 
       HASH_ADD_KEYPTR (hh,
-                       ctx->unit_types,
+                       *types,
                        type->name,
                        strlen (type->name),
                        type);
@@ -114,13 +114,13 @@ bool unit_types_load (strat_ctx ctx)
    return true;
 }
 
-void unit_types_unload (strat_ctx ctx)
+void unit_types_unload (strat_ctx ctx, unit_type * types)
 {
    unit_type type, tmp;
 
-   HASH_ITER (hh, ctx->unit_types, type, tmp)
+   HASH_ITER (hh, (*types), type, tmp)
    {
-      HASH_DEL (ctx->unit_types, type);
+      HASH_DEL (*types, type);
 
       unit_type_cleanup (type);
       free (type);

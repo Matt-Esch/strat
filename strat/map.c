@@ -53,7 +53,7 @@ bool map_init (strat_ctx ctx, strat_map map, const char * name)
       return false;
    }
 
-   if (!tile_init (ctx, &map->default_tile, sut_json_string (map->json, "defaultTile", "")))
+   if (!tile_init (ctx, &map->default_tile, sut_json_string (map->json, "defaultTile", "empty")))
    {
       trace ("Error loading default tile for map %s", name);
       return false;
@@ -66,7 +66,7 @@ bool map_init (strat_ctx ctx, strat_map map, const char * name)
    {
       for (long y = 0; y < map->height; ++ y)
       {
-         map->tiles [y * map->width + x] = &ctx->empty_tile;
+         map->tiles [y * map->width + x] = &map->default_tile;
       }
    }
 
@@ -80,8 +80,8 @@ bool map_init (strat_ctx ctx, strat_map map, const char * name)
       for (size_t i = 0; i < units->u.array.length; ++ i)
       {
          struct _unit unit;
-         unit_init_json (ctx, &unit, units->u.array.values [i]);
-         list_push (ctx->units, unit);
+         unit_init_json (&ctx->unit_types, &unit, units->u.array.values [i]);
+         list_push (map->units, unit);
       }
    }
    else
@@ -100,7 +100,7 @@ void map_cleanup (strat_map map)
    tile_cleanup (&map->default_tile);
 }
 
-void map_draw (strat_ctx ctx, strat_map map)
+void map_draw (strat_ctx ctx, camera camera, strat_map map)
 {
    int num_drawn = 0;
 
@@ -110,10 +110,10 @@ void map_draw (strat_ctx ctx, strat_map map)
       {
          strat_tile tile = map->tiles [i * map->width + j];
 
-		  vec2f p = mapspace_to_screenspace(ctx, i, j);
+         vec2f p = mapspace_to_screenspace (camera, i, j);
 
-		  //Adjust for tile hotspot
-		  p.x -= ctx->map.tile_width/2;
+         //Adjust for tile hotspot
+         p.x -= map->tile_width/2;
 		  
          image_draw (&tile->image, p.x, p.y);
 

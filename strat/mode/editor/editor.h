@@ -28,6 +28,13 @@
  * SUCH DAMAGE.
  */
 
-#include "common.h"
+typedef struct _mode_editor
+{
+   struct _mode mode;
+
+} * mode_editor;
+
+mode editor_start (strat_ctx);
+void editor_end (strat_ctx, mode mode);
 
 

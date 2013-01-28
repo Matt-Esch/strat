@@ -30,5 +30,32 @@
 
 #include "common.h"
 
+static void tick (strat_ctx ctx, mode mode)
+{
+   mode_editor editor = (mode_editor) mode;
 
+}
+
+static void draw (strat_ctx ctx, mode mode)
+{
+   mode_editor editor = (mode_editor) mode;
+
+}
+
+mode editor_start (strat_ctx ctx)
+{
+   mode_editor editor = calloc (sizeof (*editor), 1);
+
+   editor->mode.tick = tick;
+   editor->mode.draw = draw;
+
+   return (mode) editor;
+}
+
+void editor_end (strat_ctx ctx, mode mode)
+{
+   mode_editor editor = (mode_editor) mode;
+
+   free (editor);
+}
 

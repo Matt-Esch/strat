@@ -61,6 +61,7 @@
 #include "../deps/freetype-gl/texture-font.h"
 
 typedef struct _strat_ctx * strat_ctx;
+typedef struct _camera * camera;
 
 #include "util.h"
 #include "image.h"
@@ -70,6 +71,10 @@ typedef struct _strat_ctx * strat_ctx;
 #include "unit.h"
 #include "map.h"
 #include "camera.h"
+
+#include "mode/mode.h"
+#include "mode/game/game.h"
+#include "mode/editor/editor.h"
 
 #define strat_version "Strat 0.1.0"
 #define strat_max_path 512
@@ -82,28 +87,17 @@ struct _strat_ctx
    bool fullscreen;
 
    vec2i cursor;
-   vec2f camera;
 
-   float camera_accel_x, camera_accel_y;
-	mat3f camera_matrix;
+   struct _strat_font ui_font;
 
    const char * game_title;
    int tick_rate;
 
-   struct _strat_map map;
-
-   struct _strat_tile empty_tile;
-
-   struct _strat_font ui_font;
+   mode mode;
 
    unit_type unit_types;
-   list (struct _unit, units);
 
-   struct
-   {
-      vec2f start, end;
-
-   } selection;
+   bool is_editor;
 };
 
 strat_ctx strat_init (int argc, char * argv []);

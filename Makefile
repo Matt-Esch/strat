@@ -1,11 +1,12 @@
 
-CFLAGS = -std=gnu99 -O0 -g -Istrat
+CFLAGS = -std=gnu11 -O0 -g -Istrat
 
 CFLAGS += -Ideps/json-parser
 CFLAGS += -Ideps/libpng
 CFLAGS += -Ideps/list
 CFLAGS += -Ideps/freetype/include
 CFLAGS += -Ideps/freetype-gl
+CFLAGS += -Ideps/glfw/include
 
 LDFLAGS += -lz
 
@@ -13,6 +14,10 @@ PLATFORM = $(shell uname -s | tr '[A-Z]' '[a-z]')
 
 ifeq ($(PLATFORM), darwin)
 	LDFLAGS += -framework OpenGL
+	LDFLAGS += -framework CoreServices
+	LDFLAGS += -framework Cocoa
+	LDFLAGS += -framework IOKit
+	LDFLAGS += -lbz2
 	GLFW_TARGET = cocoa
 endif
 
@@ -34,6 +39,7 @@ build/unit-type.o \
 build/unit.o \
 build/matrix.o \
 build/camera.o \
+build/game.o \
 build/editor.o
 
 OBJECTS += \
@@ -95,11 +101,11 @@ build/camera.o: strat/camera.c
 build/matrix.o: strat/matrix.c
 	$(CC) $(CFLAGS) strat/matrix.c -c -o $@
 
-build/game.o: strat/game.c
-	$(CC) $(CFLAGS) strat/game.c -c -o $@
+build/game.o: strat/mode/game/game.c
+	$(CC) $(CFLAGS) strat/mode/game/game.c -c -o $@
 
-build/editor.o: strat/editor.c
-	$(CC) $(CFLAGS) strat/editor.c -c -o $@
+build/editor.o: strat/mode/editor/editor.c
+	$(CC) $(CFLAGS) strat/mode/editor/editor.c -c -o $@
 
 
 ## glfw

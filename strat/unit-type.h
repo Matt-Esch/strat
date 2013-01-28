@@ -55,6 +55,6 @@ void unit_type_cleanup (unit_type);
 
 #define unit_type_flag_loaded  1
 
-bool unit_types_load (strat_ctx ctx);
-void unit_types_unload (strat_ctx ctx);
+bool unit_types_load (strat_ctx ctx, unit_type * types);
+void unit_types_unload (strat_ctx ctx, unit_type * types);
 

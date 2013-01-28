@@ -1,4 +1,4 @@
- 
+
 /* vim: set et ts=3 sw=3 ft=c:
  *
  * Copyright (C) 2013 James McLaughlin & Anders Riggelsen.
@@ -28,18 +28,25 @@
  * SUCH DAMAGE.
  */
 
-typedef struct _camera
+typedef struct _mode_game
 {
-   vec2f pos;
-   float accel_x, accel_y;
-	mat3f matrix;
+   struct _mode mode;
 
-} * camera;
+   struct _strat_map map;
 
-void camera_center (strat_ctx, camera, int x, int y);
+   struct
+   {
+      vec2f start, end;
 
-vec2f mapspace_to_screenspace (camera, int x, int y);
-vec2f screenspace_to_mapspace (camera, int x, int y);
+   } selection;
 
-void camera_tick (strat_ctx ctx, strat_map map, camera camera);
+   struct _camera camera;
+
+   list (struct _unit, units);
+
+} * mode_game;
+
+mode game_start (strat_ctx);
+void game_end (strat_ctx, mode mode);
+
 

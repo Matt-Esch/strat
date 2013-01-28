@@ -39,10 +39,12 @@ typedef struct _strat_map
 
    struct _strat_tile default_tile;
 
+   list (struct _unit, units);
+
 } * strat_map;
 
 bool map_init (strat_ctx, strat_map, const char * name);
 void map_cleanup (strat_map);
 
-void map_draw (strat_ctx, strat_map);
+void map_draw (strat_ctx, camera, strat_map);
 

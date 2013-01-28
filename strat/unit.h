@@ -38,12 +38,12 @@ typedef struct _unit
 
 } * unit;
 
-bool unit_init (strat_ctx, unit, unit_type);
-bool unit_init_json (strat_ctx, unit, json_value *);
+bool unit_init (unit_type * types, unit, unit_type);
+bool unit_init_json (unit_type * types, unit, json_value *);
 
 void unit_cleanup (unit);
 
-void unit_draw (strat_ctx, unit);
+void unit_draw (strat_ctx, camera, unit);
 
 
 
