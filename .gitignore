@@ -20,3 +20,11 @@ DerivedData
 *.lo
 *.dylib
 run
+*.exe
+*.obj
+*.ncb
+*.pdb
+*.dll
+*.user
+*.lib
+
