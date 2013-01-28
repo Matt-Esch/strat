@@ -32,6 +32,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include "matrix.h"
 
 #ifdef _MSC_VER
     #include "../deps/glew/include/GL/glew.h"
@@ -75,10 +76,11 @@ struct _strat_ctx
    long win_width, win_height;
    bool fullscreen;
 
-   point cursor;
-   point camera;
+   vec2i cursor;
+   vec2f camera;
 
    float camera_accel_x, camera_accel_y;
+	mat3f camera_matrix;
 
    const char * game_title;
    int tick_rate;
@@ -94,7 +96,7 @@ struct _strat_ctx
 
    struct
    {
-      point start, end;
+      vec2f start, end;
 
    } selection;
 };

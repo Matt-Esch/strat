@@ -109,22 +109,19 @@ void map_draw (strat_ctx ctx, strat_map map)
       {
          strat_tile tile = map->tiles [i * map->width + j];
 
-         int x = j * tile->image.width / 2 + i * tile->image.width / 2;
-         int y = (i * tile->image.height / 2 - j * tile->image.height / 2);
- 
-         y -= (tile->image.height / 2);
+		  vec2f p = mapspace_to_screenspace(ctx, i, j);
 
-         x -= ctx->camera.x;
-         y -= ctx->camera.y;
-
-         image_draw (&tile->image, x, y);
+		  //Adjust for tile hotspot
+		  p.x -= ctx->map.tile_width/2;
+		  
+         image_draw (&tile->image, p.x, p.y);
 
          char desc[128];
-         sprintf(desc, "%d: %d, %d", num_drawn ++, j, i);
+         sprintf(desc, "%d: %d, %d", num_drawn ++, i, j);
 
          text_draw (&ctx->ui_font,
-                    x,
-                    y,
+                    p.x,
+                    p.y,
                     tile->image.width,
                     tile->image.height,
                     desc,

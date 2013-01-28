@@ -70,7 +70,7 @@ void unit_cleanup (unit unit)
 
 void unit_draw (strat_ctx ctx, unit unit)
 {
-   point p = screenspace_to_mapspace (ctx, unit->x, unit->y);
+   vec2f p = mapspace_to_screenspace (ctx, unit->x, unit->y);
 
    image_draw (&unit->type->image.stand, p.x, p.y);
 }

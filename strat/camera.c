@@ -28,6 +28,7 @@
  */
 
 #include "common.h"
+#include "matrix.h"
 
 void camera_center (strat_ctx ctx, int x, int y)
 {
@@ -39,39 +40,25 @@ void camera_center (strat_ctx ctx, int x, int y)
 #define c  (cos(theta/2))
 #define s  (sin(theta/2))
 
-sut_point screenspace_to_mapspace (int x, int y)
+sut_vec2f screenspace_to_mapspace (int x, int y)
 {
-   sut_point point;
+   sut_vec2f vec2f;
 
-   point.x = round(x / c - (y / s));
-   point.y = round(x / c + (y / s));
+   vec2f.x = round(x / c - (y / s));
+   vec2f.y = round(x / c + (y / s));
 
-   return point; 
+   return vec2f; 
 }*/
 
-point screenspace_to_mapspace (strat_ctx ctx, int x, int y)
+vec2f screenspace_to_mapspace (strat_ctx ctx, int x, int y)
 {
-   point point;
- 
-   x += ctx->camera.x;
-   y += ctx->camera.y;
-
-   y += ctx->map.tile_height / 2;
-
-   point.x = (x - y) / ctx->map.tile_width;
-   point.y = (x - 3 * y) / ctx->map.tile_width;
-
-   return point; 
+	mat3f inv = mat3fInvert(ctx->camera_matrix);
+	return mat3fTransformPoint(inv, x,y);
 }
 
-point mapspace_to_screenspace (strat_ctx ctx, int x, int y)
+vec2f mapspace_to_screenspace (strat_ctx ctx, int x, int y)
 {
-   point point;
-
-   point.x = 0;
-   point.y = 0;
-
-   return point; 
+	return mat3fTransformPoint(ctx->camera_matrix, x,y);
 }
 
 void handle_accel (float * accel, int direction)
@@ -144,6 +131,14 @@ void camera_tick (strat_ctx ctx)
 
    handle_accel (&ctx->camera_accel_y, y_direction);
    ctx->camera.y += ctx->camera_accel_y;
+	
+	
+	//Update camera matrix
+	float scale = ctx->map.tile_width / sqrt(2);
+	mat3f mat = mat3fMakeRotate(M_PI/4);
+	mat = mat3fScale(mat, scale, scale/2);
+	mat = mat3fTranslate(mat, -ctx->camera.x, -ctx->camera.y);
+	ctx->camera_matrix = mat;
 }
 
 

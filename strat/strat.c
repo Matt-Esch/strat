@@ -115,11 +115,12 @@ void strat_draw (strat_ctx ctx)
    }
 
    char status[128];
-   sprintf (status, "Camera: %d, %d", ctx->camera.x, ctx->camera.y);
+   sprintf (status, "Camera: %f, %f", ctx->camera.x, ctx->camera.y);
    text_draw (&ctx->ui_font, 0, 40, 0, 0, status, 0);
 
-   point m = screenspace_to_mapspace(ctx, ctx->cursor.x, ctx->cursor.y);
-   sprintf (status, "Mouse: %d, %d", m.x, m.y);
+   vec2f m = screenspace_to_mapspace(ctx, ctx->cursor.x, ctx->cursor.y);
+   sprintf (status, "Mouse: %f, %f", m.x, m.y);
+	
    text_draw (&ctx->ui_font, 0, 0, 0, 0, status, 0);
 
    if (ctx->selection.start.x != 0)
