@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 strat. All rights reserved.
 //
 
-#include <matrix.h>
+#include "matrix.h"
 #include <math.h>
 
 struct Vec2f Vec2fMake(float x, float y)

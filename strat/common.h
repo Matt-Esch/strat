@@ -45,14 +45,14 @@
     #include <opengl/gl.h>
 #endif
 
-#include <png.h>
+#include "../deps/libpng/png.h"
 
 #include "../deps/json-parser/json.h"
 #include "../deps/uthash/uthash.h"
 #include "../deps/list/list.h"
 
-#include "../freetype-gl/vertex-buffer.h"
-#include "../freetype-gl/texture-font.h"
+#include "../deps/freetype-gl/vertex-buffer.h"
+#include "../deps/freetype-gl/texture-font.h"
 
 typedef struct _strat_ctx * strat_ctx;
 
