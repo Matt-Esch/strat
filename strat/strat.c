@@ -183,7 +183,42 @@ bool strat_tick (strat_ctx ctx)
    else
    {
       if (ctx->selection.start.x)
+      {
+         ctx->selection.start.x -= ctx->camera.x;
+         ctx->selection.start.y -= ctx->camera.y;
+
+         ctx->selection.end.x -= ctx->camera.x;
+         ctx->selection.end.y -= ctx->camera.y;
+
+         vec2f start = screenspace_to_mapspace
+            (ctx, ctx->selection.start.x, ctx->selection.start.y);
+         
+         vec2f end = screenspace_to_mapspace
+            (ctx, ctx->selection.end.x, ctx->selection.end.y);
+
+         trace ("Selection: %f, %f to %f, %f", start.x, start.y, end.x, end.y);
+
+         list_each_elem (ctx->units, unit)
+         {
+            if (unit->x > start.x && unit->y > start.y &&
+                    unit->x < end.x && unit->y < end.y)
+            {
+               trace ("%s selected", unit->type->name);
+
+               unit->selected = true;
+            }
+            else
+            {
+               if (unit->selected)
+               {
+                  trace ("%s deselected", unit->type->name);
+                  unit->selected = false;
+               }
+            }
+         }
+
          ctx->selection.start.x = 0;
+      }
    }
 
    camera_tick (ctx);

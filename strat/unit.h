@@ -33,6 +33,8 @@ typedef struct _unit
 
     int x, y;
 
+    bool selected;
+
 } * unit;
 
 bool unit_init (strat_ctx, unit, unit_type);
