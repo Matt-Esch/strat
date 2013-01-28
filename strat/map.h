@@ -36,7 +36,7 @@ typedef struct _strat_map
    int tile_width, tile_height;
    strat_tile * tiles;
 
-   _strat_tile default_tile;
+   struct _strat_tile default_tile;
 
 } * strat_map;
 
