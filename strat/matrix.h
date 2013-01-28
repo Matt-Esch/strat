@@ -9,25 +9,29 @@
 #ifndef strat_matrix_h
 #define strat_matrix_h
 
-typedef struct Vec2f {float x, y;} Vec2f;
-struct Vec2f Vec2fMake(float x, float y);
-float Vec2fDistanceBetween(const struct Vec2f a, const struct Vec2f b);
+typedef struct vec2f {float x, y;} vec2f;
+struct vec2f vec2fMake(float x, float y);
 
-typedef struct Mat3f {float a,d,g,  b,e,h,  c,f,i;} Mat3f;
-struct Mat3f Mat3fMakeIdentity();
-struct Mat3f Mat3fMakeTranslate(float x, float y);
-struct Mat3f Mat3fMakeScale(float x, float y);
-struct Mat3f Mat3fMakeRotate(float angle);
+typedef struct vec2i {int x, y;} vec2i;
+struct vec2i vec2iMake(int x, int y);
 
-struct Mat3f Mat3fMultiply(const struct Mat3f a, const struct Mat3f b);
-struct Mat3f Mat3fTranslate(const struct Mat3f mat, float x, float y);
-struct Mat3f Mat3fScale(const struct Mat3f mat, float sx, float sy);
-struct Mat3f Mat3fRotate(const struct Mat3f mat, float angle);
-struct Mat3f Mat3fTranspose(const struct Mat3f mat);
-struct Mat3f Mat3fInvert(const struct Mat3f mat);
-float Mat3fDeterminant(const struct Mat3f mat);
-struct Vec2f Mat3fTransformVector(const struct Mat3f mat, const struct Vec2f point);
-struct Vec2f Mat3fTransformPoint(const struct Mat3f mat, float x, float y);
+float vec2fDistanceBetween(const struct vec2f a, const struct vec2f b);
+
+typedef struct mat3f {float a,d,g,  b,e,h,  c,f,i;} mat3f;
+struct mat3f mat3fMakeIdentity();
+struct mat3f mat3fMakeTranslate(float x, float y);
+struct mat3f mat3fMakeScale(float x, float y);
+struct mat3f mat3fMakeRotate(float angle);
+
+struct mat3f mat3fMultiply(const struct mat3f a, const struct mat3f b);
+struct mat3f mat3fTranslate(const struct mat3f mat, float x, float y);
+struct mat3f mat3fScale(const struct mat3f mat, float sx, float sy);
+struct mat3f mat3fRotate(const struct mat3f mat, float angle);
+struct mat3f mat3fTranspose(const struct mat3f mat);
+struct mat3f mat3fInvert(const struct mat3f mat);
+float mat3fDeterminant(const struct mat3f mat);
+struct vec2f mat3fTransformVector(const struct mat3f mat, const struct vec2f point);
+struct vec2f mat3fTransformPoint(const struct mat3f mat, float x, float y);
 
 
 #endif
