@@ -120,6 +120,8 @@ void strat_draw (strat_ctx ctx)
 
 bool strat_tick (strat_ctx ctx)
 {
+   ctx->mode->tick (ctx, ctx->mode);
+
    return true;
 }
 
