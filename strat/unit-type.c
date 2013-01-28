@@ -66,6 +66,9 @@ void unit_type_load (unit_type type)
 
    snprintf (filename, sizeof (filename), "game/unit/%s/stand-0.png", type->name);
    image_init (&type->image.stand, filename);
+
+   type->width = type->image.stand.width;
+   type->height = type->image.stand.height;
 }
 
 void unit_type_unload (unit_type type)

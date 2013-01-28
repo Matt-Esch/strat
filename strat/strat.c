@@ -36,13 +36,13 @@ strat_ctx strat_init (int argc, char * argv [])
 
    if (!ctx)
    {
-      fprintf (stderr, "Error allocating engine context");
+      trace ("Error allocating engine context");
       return 0;
    }
 
    if (! (ctx->config = sut_json_load ("config.json")))
    {
-      fprintf (stderr, "Engine: Unable to load config.json\n");
+      trace ("Engine: Unable to load config.json\n");
       return 0;
    }
 
@@ -52,12 +52,18 @@ strat_ctx strat_init (int argc, char * argv [])
 
    if (! (ctx->game_def = sut_json_load ("game/game.json")))
    {
-      fprintf (stderr, "Engine: Unable to load game definition file\n");
+      trace ("Engine: Unable to load game definition file\n");
       return 0;
    }
 
    ctx->game_title = sut_json_string (ctx->game_def, "title", strat_version);
    ctx->tick_rate = sut_json_int (ctx->game_def, "tickRate", 60);
+
+   if (argc >= 2 && !strcasecmp (argv [1], "editor"))
+   {
+
+
+   }
 
    return ctx;
 }
@@ -127,8 +133,8 @@ void strat_draw (strat_ctx ctx)
    if (ctx->selection.start.x != 0)
    {
       glTranslatef (0.5f - ctx->camera.x, 0.5f - ctx->camera.y, 0);
-      glDisable (GL_TEXTURE_2D);
 
+      glDisable (GL_TEXTURE_2D);
       glColor4f (0.8f, 0.8f, 0.8f, 0.8f);
 
       int x0 = ctx->selection.start.x,
@@ -157,7 +163,9 @@ void strat_draw (strat_ctx ctx)
       }
 
       glTranslatef (-0.5f + ctx->camera.x, -0.5f + ctx->camera.y, 0);
+
       glEnable (GL_TEXTURE_2D);
+      glColor4f (1.0f, 1.0f, 1.0f, 1.0f);
    }
 
    GLenum error = glGetError();
@@ -185,28 +193,37 @@ bool strat_tick (strat_ctx ctx)
    {
       if (ctx->selection.start.x)
       {
-         ctx->selection.start.x -= ctx->camera.x;
-         ctx->selection.start.y -= ctx->camera.y;
+         vec2f start = ctx->selection.start,
+               end = ctx->selection.end;
 
-         ctx->selection.end.x -= ctx->camera.x;
-         ctx->selection.end.y -= ctx->camera.y;
+         if (end.x < start.x)
+         {
+            int x = end.x;
+            end.x = start.x;
+            start.x = x;
+         }
 
-         vec2f start = screenspace_to_mapspace
-            (ctx, ctx->selection.start.x, ctx->selection.start.y);
-         
-         vec2f end = screenspace_to_mapspace
-            (ctx, ctx->selection.end.x, ctx->selection.end.y);
-
-         trace ("Selection: %f, %f to %f, %f", start.x, start.y, end.x, end.y);
+         if (end.y < start.y)
+         {
+            int y = end.y;
+            end.y = start.y;
+            start.y = y;
+         }
 
          list_each_elem (ctx->units, unit)
          {
-            if (unit->x > start.x && unit->y > start.y &&
-                    unit->x < end.x && unit->y < end.y)
-            {
-               trace ("%s selected", unit->type->name);
+            vec2f unit_pos = mapspace_to_screenspace (ctx, unit->x, unit->y);
 
-               unit->selected = true;
+            if (unit->x > start.x &&
+                (unit->y - unit->type->height) > start.y &&
+                (unit->x + unit->type->width) < end.x &&
+                unit->y < end.y)
+            {
+               if (!unit->selected)
+               {
+                  trace ("%s selected", unit->type->name);
+                  unit->selected = true;
+               }
             }
             else
             {

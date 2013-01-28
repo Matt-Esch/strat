@@ -120,7 +120,12 @@ struct mat3f mat3fTranspose(const struct mat3f m)
 
 float mat3fDeterminant(const struct mat3f mat)
 {
-	return	mat.a * mat.e * mat.i + mat.b * mat.f * mat.g +	mat.c * mat.d * mat.h -	mat.c * mat.e * mat.g - mat.b * mat.d * mat.i - mat.a * mat.f * mat.h;
+	return	mat.a * mat.e * mat.i +
+            mat.b * mat.f * mat.g +
+            mat.c * mat.d * mat.h -
+            mat.c * mat.e * mat.g -
+            mat.b * mat.d * mat.i -
+            mat.a * mat.f * mat.h;
 }
 
 struct mat3f mat3fInvert(const struct mat3f mat)

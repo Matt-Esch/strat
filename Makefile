@@ -33,7 +33,8 @@ build/font.o \
 build/unit-type.o \
 build/unit.o \
 build/matrix.o \
-build/camera.o
+build/camera.o \
+build/editor.o
 
 OBJECTS += \
 build/ftgl-texture-font.o \
@@ -50,6 +51,9 @@ clean:
 
 dist/run: build/glfw.a build/libpng.a build/libfreetype.a build/libglfw.a $(OBJECTS)
 	$(CC) $(OBJECTS) build/*.a $(LDFLAGS) -o $@
+
+dist/editor: build/glfw.a build/libpng.a build/libfreetype.a $(OBJECTS)
+	$(CC) $(LDFLAGS) build/*.a $(OBJECTS) -o $@
 
 
 ## global
@@ -90,6 +94,12 @@ build/camera.o: strat/camera.c
 
 build/matrix.o: strat/matrix.c
 	$(CC) $(CFLAGS) strat/matrix.c -c -o $@
+
+build/game.o: strat/game.c
+	$(CC) $(CFLAGS) strat/game.c -c -o $@
+
+build/editor.o: strat/editor.c
+	$(CC) $(CFLAGS) strat/editor.c -c -o $@
 
 
 ## glfw

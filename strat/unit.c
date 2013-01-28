@@ -79,12 +79,13 @@ void unit_draw (strat_ctx ctx, unit unit)
 
    if (unit->selected)
    {
+      glDisable (GL_TEXTURE_2D);
       glColor4f (0.8f, 0.8f, 0.8f, 0.8f);
 
-      int x0 = unit->x,
+      int x0 = p.x - (image->width / 2),
           x1 = x0 + image->width,
-          y0 = unit->y + image->height + 4,
-          y1 = y0;
+          y0 = p.y + 4,
+          y1 = y0 + 1;
 
       GLfloat vertices [] =
       {
@@ -96,7 +97,11 @@ void unit_draw (strat_ctx ctx, unit unit)
 
       glVertexPointer (2, GL_FLOAT, 0, vertices);
       glDrawArrays (GL_LINE_LOOP, 0, 4);
+
+      glEnable (GL_TEXTURE_2D);
+      glColor4f (1.0f, 1.0f, 1.0f, 1.0f);
    }
+
    image_draw (image, p.x - image->width / 2, p.y - image->height);
 }
 

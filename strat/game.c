@@ -28,33 +28,7 @@
  * SUCH DAMAGE.
  */
 
-typedef struct _unit_type
-{
-   UT_hash_handle hh;
+#include "common.h"
 
-   json_value * json;
 
-   char * name;
-
-   struct
-   {
-      struct _strat_image stand;
-
-   } image;
-
-   int width, height;
-
-   int flags;
-
-} * unit_type;
-
-bool unit_type_init (strat_ctx, unit_type, const char * name);
-void unit_type_load (unit_type);
-void unit_type_unload (unit_type);
-void unit_type_cleanup (unit_type);
-
-#define unit_type_flag_loaded  1
-
-bool unit_types_load (strat_ctx ctx);
-void unit_types_unload (strat_ctx ctx);
 
