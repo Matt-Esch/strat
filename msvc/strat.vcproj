@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)\..\deps\zlib&quot;;&quot;$(SolutionDir)\..\deps\glew\include&quot;;&quot;$(SolutionDir)\..\deps\freetype\include&quot;;&quot;$(SolutionDir)\..\deps\libpng&quot;;&quot;$(SolutionDir)\..\platform\glfw\deps\glfw\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\..\deps\zlib&quot;;&quot;$(SolutionDir)\..\deps\glew\include&quot;;&quot;$(SolutionDir)\..\deps\freetype\include&quot;;&quot;$(SolutionDir)\..\deps\libpng&quot;;&quot;$(SolutionDir)\..\deps\glfw\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;GLEW_STATIC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"

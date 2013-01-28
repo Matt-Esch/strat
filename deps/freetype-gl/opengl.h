@@ -31,15 +31,14 @@
  * policies, either expressed or implied, of Nicolas P. Rougier.
  * ============================================================================
  */
-#ifndef __OPEN_GL_H__
-#define __OPEN_GL_H__
+#ifndef _FTGL_OPEN_GL_H__
+#define _FTGL_OPEN_GL_H__
 
 #if defined(__APPLE__)
 #  ifdef GL_ES_VERSION_2_0
 #    include <OpenGLES/ES2/gl.h>
 #  else
 #    include <OpenGL/gl.h>
-#    include <Glut/glut.h>
 #  endif
 #elif defined(_WIN32) || defined(_WIN64)
     #include <Windows.h>
@@ -47,7 +46,7 @@
     #include <GL/wglew.h>
 #else
     #include <GL/gl.h>
-    #include <GL/glut.h>
 #endif
 
-#endif /* OPEN_GL_H */
+#endif /* FTGL_OPEN_GL_H */
+

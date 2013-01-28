@@ -121,7 +121,7 @@
 		1A97F5CC16B5FFFE0066ADDE /* libfreetype.a */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; name = libfreetype.a; path = deps/freetype/objs/.libs/libfreetype.a; sourceTree = "<group>"; };
 		1ABB2AD916B6033A00BB76E8 /* vertex-attribute.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "vertex-attribute.c"; path = "deps/freetype-gl/vertex-attribute.c"; sourceTree = "<group>"; };
 		1ABB2ADD16B6035E00BB76E8 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = main.c; path = platform/glfw/main.c; sourceTree = "<group>"; };
-		1ABB2AE216B603D900BB76E8 /* libglfw.a */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; name = libglfw.a; path = platform/glfw/deps/glfw/lib/cocoa/libglfw.a; sourceTree = "<group>"; };
+		1ABB2AE216B603D900BB76E8 /* libglfw.a */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; name = libglfw.a; path = deps/glfw/lib/cocoa/libglfw.a; sourceTree = "<group>"; };
 		1ABB2AE416B6040000BB76E8 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		1ABB2AE616B6042300BB76E8 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		1ABB2AE816B6043500BB76E8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -438,13 +438,13 @@
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
 					deps/freetype/include,
-					platform/glfw/deps/glfw/include,
+					deps/glfw/include,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/deps/libpng\"",
 					"\"$(SRCROOT)/deps/freetype/objs/.libs\"",
-					"\"$(SRCROOT)/platform/glfw/deps/glfw/lib/cocoa\"",
+					"\"$(SRCROOT)/deps/glfw/lib/cocoa\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -455,13 +455,13 @@
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
 					deps/freetype/include,
-					platform/glfw/deps/glfw/include,
+					deps/glfw/include,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/deps/libpng\"",
 					"\"$(SRCROOT)/deps/freetype/objs/.libs\"",
-					"\"$(SRCROOT)/platform/glfw/deps/glfw/lib/cocoa\"",
+					"\"$(SRCROOT)/deps/glfw/lib/cocoa\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

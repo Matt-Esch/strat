@@ -36,15 +36,19 @@
 #include "matrix.h"
 
 #ifdef _MSC_VER
-    #include "../deps/glew/include/GL/glew.h"
-    #include "../msvc/typeof.h"
-    #include "../msvc/dirent.h"
-    #define snprintf sprintf_s
-    #define strcasecmp stricmp
+   #include "../deps/glew/include/GL/glew.h"
+   #include "../msvc/typeof.h"
+   #include "../msvc/dirent.h"
+   #define snprintf sprintf_s
+   #define strcasecmp stricmp
 #else
-    #include <dirent.h>
-    #include <stdbool.h>
-    #include <opengl/gl.h>
+   #include <dirent.h>
+   #include <stdbool.h>
+   #ifdef __APPLE__
+      #include <opengl/gl.h>
+   #else
+      #include <GL/gl.h>
+   #endif
 #endif
 
 #include "../deps/libpng/png.h"

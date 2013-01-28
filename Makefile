@@ -1,5 +1,5 @@
 
-CFLAGS = -O0 -g -Istrat
+CFLAGS = -std=gnu99 -O0 -g -Istrat
 
 CFLAGS += -Ideps/json-parser
 CFLAGS += -Ideps/libpng
@@ -7,11 +7,19 @@ CFLAGS += -Ideps/list
 CFLAGS += -Ideps/freetype/include
 CFLAGS += -Ideps/freetype-gl
 
-LDFLAGS += -lglfw
-LDFLAGS += -Lplatform/glfw/deps/glfw/lib/cocoa
-LDFLAGS += -framework OpenGL
 LDFLAGS += -lz
-LDFLAGS += -lbz2
+
+PLATFORM = $(shell uname -s | tr '[A-Z]' '[a-z]')
+
+ifeq ($(PLATFORM), darwin)
+	LDFLAGS += -framework OpenGL
+	GLFW_TARGET = cocoa
+endif
+
+ifeq ($(PLATFORM), linux)
+	LDFLAGS += -lGL -lm -lX11 -lpthread -lrt -lXrandr
+	GLFW_TARGET = x11
+endif
 
 OBJECTS = \
 build/json.o \
@@ -40,8 +48,8 @@ all: dist/run
 clean:
 	@rm -f build/*
 
-dist/run: build/glfw.a build/libpng.a build/libfreetype.a $(OBJECTS)
-	$(CC) $(LDFLAGS) build/*.a $(OBJECTS) -o $@
+dist/run: build/glfw.a build/libpng.a build/libfreetype.a build/libglfw.a $(OBJECTS)
+	$(CC) $(OBJECTS) build/*.a $(LDFLAGS) -o $@
 
 
 ## global
@@ -87,11 +95,14 @@ build/matrix.o: strat/matrix.c
 ## glfw
 ##########
 
-GLFW_FLAGS = $(CFLAGS) -Iplatform/glfw/deps/glfw/include 
+GLFW_FLAGS = $(CFLAGS) -Ipdeps/glfw/include 
 
 build/glfw.a: build/glfw-main.o
 	ar rcs $@ build/glfw-*
-	cp -f platform/glfw/deps/glfw/lib/cocoa/libglfw.dylib dist/
+
+build/libglfw.a:
+	make -C deps/glfw $(GLFW_TARGET)
+	cp -f deps/glfw/lib/$(GLFW_TARGET)/libglfw.a build/
 
 build/glfw-main.o: platform/glfw/main.c
 	$(CC) $(GLFW_FLAGS) platform/glfw/main.c -c -o $@
@@ -104,7 +115,7 @@ build/libpng.a: deps/libpng/libpng.a
 	cp -f deps/libpng/libpng.a build/
 
 deps/libpng/libpng.a:
-	make -C deps/libpng -f scripts/makefile.darwin;
+	make -C deps/libpng -f scripts/makefile.$(PLATFORM);
 
 
 ## freetype
@@ -137,6 +148,7 @@ build/ftgl-vertex-buffer.o: deps/freetype-gl/vertex-buffer.c
 
 build/ftgl-vertex-attribute.o: deps/freetype-gl/vertex-attribute.c
 	$(CC) $(CFLAGS) deps/freetype-gl/vertex-attribute.c -c -o $@
+
 
 .PHONY: clean all
 
